@@ -9,6 +9,7 @@
  * DRAFT — must be reviewed by counsel before launch. noindex until then.
  */
 import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/contact';
 
 const updated = '20 August 2026';
 ---
@@ -19,7 +20,7 @@ const updated = '20 August 2026';
       <h1 class="hx-art-t">Privacy Policy</h1>
       <p class="hx-art-dek">
         How we handle personal data. This is a working draft pending legal review — questions to
-        <a href="mailto:hello@hyperporter.com">hello@hyperporter.com</a>.
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
       </p>
     <div class="art-body">
       <h2>1. Who is responsible</h2>
@@ -74,7 +75,7 @@ const updated = '20 August 2026';
         Subject to applicable law, you can request access to, correction of, or deletion of your personal data, and
         object to or restrict certain processing. Travellers whose data we process for a travel business should
         direct requests to that business; we will assist it in responding. Contact us at
-        <a href="mailto:hello@hyperporter.com">hello@hyperporter.com</a>.
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
       </p>
 
       <h2>8. Cookies</h2>

@@ -1,4 +1,5 @@
 ---
+import { CONTACT_EMAIL } from '../lib/contact';
 /**
  * Footer, restructured onto the Harvey AI reference layout:
  *
@@ -44,7 +45,7 @@ const YEAR = new Date().getFullYear();
         </a>
         <div class="f-con">
           <div>Intelak Hub, Offices 4, One Central<br />Dubai World Trade Center, Dubai, UAE</div>
-          <div><a href="mailto:hello@hyperporter.com">hello@hyperporter.com</a></div>
+          <div><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></div>
         </div>
       </div>
 

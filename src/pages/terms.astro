@@ -9,6 +9,7 @@
  * Reuses the article (.art-*) styles rather than inventing a new layout.
  */
 import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/contact';
 
 const updated = '20 August 2026';
 ---
@@ -19,7 +20,7 @@ const updated = '20 August 2026';
       <h1 class="hx-art-t">Terms &amp; Conditions</h1>
       <p class="hx-art-dek">
         These terms govern your use of Projectour's services. They are a working draft pending legal review — if
-        you have questions, contact <a href="mailto:hello@hyperporter.com">hello@hyperporter.com</a>.
+        you have questions, contact <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
       </p>
     <div class="art-body">
       <h2>1. Who we are</h2>
