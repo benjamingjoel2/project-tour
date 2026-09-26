@@ -45,7 +45,7 @@ const blog = defineCollection({
     cat: z.string(),
     date: z.coerce.date(),
     // Single company byline for now — revisit if named authorship is wanted.
-    author: z.string().default('Hyperporter'),
+    author: z.string().default('Projectour'),
   }),
 });
 

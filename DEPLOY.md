@@ -1,4 +1,4 @@
-# Deploying Hyperporter (self-hosted)
+# Deploying the inherited self-hosted stack (upstream Hyperporter)
 
 > **This repository deploys to Vercel — see [VERCEL.md](VERCEL.md).**
 >
