@@ -1,6 +1,6 @@
 # Deploying this site on Vercel
 
-This repository is a **fork** of the original Hyperporter site. It is its own
+This repository is a **fork** of the original Projectour site. It is its own
 project with its own design, deployed to its own domain on Vercel. The
 Docker + nginx stack described in `DEPLOY.md` belongs to the original
 deployment and is not used here — see [Inherited Docker stack](#inherited-docker-stack).

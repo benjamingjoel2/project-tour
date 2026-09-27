@@ -4,7 +4,7 @@
  * #view-dest markup (openDest()), with two deliberate content changes
  * beyond the mechanical HTML/CSS port:
  *
- * 1. The on-page lede used to be a fully generic template — "Hyperporter
+ * 1. The on-page lede used to be a fully generic template — "Projectour
  *    helps you deliver world-class trips in {name} with zero hassle..." —
  *    identical for all 137 countries. It's replaced here with the
  *    destination's `description` (the prototype's actually-distinct
@@ -58,7 +58,7 @@ const touristDestinationJsonLd = {
   address: { '@type': 'PostalAddress', addressCountry: name },
   includesAttraction: { '@type': 'Country', name },
   touristType: 'Travel agencies, advisors and tour operators',
-  provider: { '@type': 'Organization', name: 'Hyperporter', url: Astro.site?.toString() },
+  provider: { '@type': 'Organization', name: 'Projectour', url: Astro.site?.toString() },
 };
 ---
 
@@ -116,7 +116,7 @@ const touristDestinationJsonLd = {
   <section class="hx hx-sec">
     <div class="hx-split">
       <div>
-        <p class="hx-ph-eye">The Hyperporter guarantee</p>
+        <p class="hx-ph-eye">The Projectour guarantee</p>
         <h2>Sell and operate your trips without the chasing.</h2>
       </div>
       <div>

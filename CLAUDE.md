@@ -1,8 +1,8 @@
-# Hyperporter — website
+# Projectour — website
 
 Context for any Claude Code session working in this repo. Read this first.
 
-## What Hyperporter is
+## What Projectour is
 
 Travel-tech company. Two products, and they are **not** the same thing:
 

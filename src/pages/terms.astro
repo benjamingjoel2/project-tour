@@ -9,22 +9,23 @@
  * Reuses the article (.art-*) styles rather than inventing a new layout.
  */
 import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/contact';
 
 const updated = '20 August 2026';
 ---
 
-<Base title="Terms & Conditions" description="The terms governing use of Hyperporter's Autopilot software and Horizon network services." noindex>
+<Base title="Terms & Conditions" description="The terms governing use of Projectour's Autopilot software and Horizon network services." noindex>
   <article class="hx hx-art">
     <p class="hx-art-m">Legal &middot; last updated {updated}</p>
       <h1 class="hx-art-t">Terms &amp; Conditions</h1>
       <p class="hx-art-dek">
-        These terms govern your use of Hyperporter's services. They are a working draft pending legal review — if
-        you have questions, contact <a href="mailto:hello@hyperporter.com">hello@hyperporter.com</a>.
+        These terms govern your use of Projectour's services. They are a working draft pending legal review — if
+        you have questions, contact <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
       </p>
     <div class="art-body">
       <h2>1. Who we are</h2>
       <p>
-        Hyperporter ("we", "us") provides travel operations infrastructure to travel businesses: <strong>Autopilot</strong>,
+        Projectour ("we", "us") provides travel operations infrastructure to travel businesses: <strong>Autopilot</strong>,
         subscription software that coordinates trip workflows, and <strong>Horizon</strong>, a network of vetted
         local ground operators through which we arrange trip services. Our registered office is Intelak Hub, Offices
         4, One Central, Dubai World Trade Center, Dubai, UAE.

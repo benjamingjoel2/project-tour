@@ -1,6 +1,6 @@
 /**
  * Shared boilerplate blocks for the destination-page "End-to-End Services"
- * and "Hyperporter Guarantee" sections. Ported verbatim from
+ * and "Projectour Guarantee" sections. Ported verbatim from
  * hyperporter-3.html's SERVICES / GUARANTEE constants — identical copy on
  * every destination page except for the `{C}` country-name substitution
  * in GUARANTEE. That sameness is the thin-content problem flagged
