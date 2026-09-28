@@ -138,8 +138,8 @@ It does **not** judge content quality. See the open items below for that.
 
 ## URL shape
 
-Canonical form carries **no trailing slash** — `/autopilot`, not
-`/autopilot/`. Every internal link in the codebase is written that way, so
+Canonical form carries **no trailing slash** — `/about`, not
+`/about/`. Every internal link in the codebase is written that way, so
 canonicals, OG URLs and the sitemap follow, and `vercel.json` sets
 `"trailingSlash": false` so the slashed form 308s to it. One crawlable URL
 per page, and no redirect hop on internal navigation.

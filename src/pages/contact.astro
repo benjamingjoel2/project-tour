@@ -1,0 +1,134 @@
+---
+/**
+ * Contact — send a brief.
+ *
+ * There is no backend, and this page does not pretend otherwise. The form
+ * composes an email from its fields and opens it in the visitor's mail
+ * client, addressed to the general inquiries address. Without JavaScript
+ * the address itself is on the page. Wiring a real form handler is an
+ * open task; until then this is honest and it works.
+ *
+ * A `?destination=` query parameter prefills the destination field, so a
+ * destination page's "Request a quote" button lands with the country
+ * already written in.
+ */
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/contact';
+import { networkCounts } from '../lib/counts';
+
+const { countries } = await networkCounts();
+---
+
+<Base
+  title="Send a brief"
+  description={`Send Projectour the inquiry as it arrived. We quote it with the operator in the destination, in any of ${countries} countries, and you take it to your client with your markup on top.`}
+>
+  <section class="hx hx-ph">
+    <p class="hx-ph-eye">Contact</p>
+    <h1>Send us the brief.</h1>
+    <p class="hx-ph-lede">
+      Forward the inquiry as it arrived. Dates, party, budget band, must-haves — as much as you
+      have. Or write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> directly.
+    </p>
+  </section>
+
+  <section class="hx" style="padding-bottom:var(--sec)">
+    <div class="hx-idx">
+      <div class="hx-idx-side">
+        <h2>What happens next</h2>
+        <div class="hx-rows" style="margin-top:26px">
+          <div class="hx-su-step"><span>01</span><p>We read the brief and come back with any questions.</p></div>
+          <div class="hx-su-step"><span>02</span><p>We quote it with the operator in the destination. One itemised net rate.</p></div>
+          <div class="hx-su-step">
+            <span>03</span><p>You take it to your client with your markup on top. On their yes, we re-check and book.</p>
+          </div>
+        </div>
+        <p>Operators in {countries} countries. If yours is not on the list, tell us where and we will source it.</p>
+      </div>
+
+      <div>
+        <form class="hx-form" id="brief" action={`mailto:${CONTACT_EMAIL}`} method="post" enctype="text/plain">
+          <div class="hx-f">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="hx-f">
+            <label for="f-company">Company</label>
+            <input id="f-company" name="company" type="text" autocomplete="organization" />
+          </div>
+          <div class="hx-f wide">
+            <label for="f-email">Work email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="hx-f">
+            <label for="f-dest">Destination</label>
+            <input id="f-dest" name="destination" type="text" placeholder="Country or region" />
+          </div>
+          <div class="hx-f">
+            <label for="f-dates">Travel dates</label>
+            <input id="f-dates" name="dates" type="text" placeholder="Approximate is fine" />
+          </div>
+          <div class="hx-f">
+            <label for="f-pax">Travellers</label>
+            <input id="f-pax" name="travellers" type="text" placeholder="e.g. 2 adults, 1 child" />
+          </div>
+          <div class="hx-f">
+            <label for="f-budget">Budget band</label>
+            <select id="f-budget" name="budget">
+              <option value="">Not sure yet</option>
+              <option>Value</option>
+              <option>Mid-range</option>
+              <option>Premium</option>
+              <option>Luxury</option>
+            </select>
+          </div>
+          <div class="hx-f wide">
+            <label for="f-brief">The brief</label>
+            <textarea id="f-brief" name="brief" rows="6" placeholder="Paste the inquiry as it arrived."></textarea>
+          </div>
+          <div class="wide">
+            <button class="btn" type="submit">Send the brief</button>
+            <p class="hx-su-note">Opens in your email client, addressed to {CONTACT_EMAIL}.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Prefill the destination from the query string (destination pages link
+  // here with ?destination=Country).
+  const params = new URLSearchParams(location.search);
+  const dest = document.getElementById('f-dest') as HTMLInputElement | null;
+  const preset = params.get('destination');
+  if (dest && preset && !dest.value) dest.value = preset;
+
+  // Compose a readable email rather than the browser's raw
+  // `name=value` mailto body. Falls back to the plain form action if
+  // anything here fails.
+  const form = document.getElementById('brief') as HTMLFormElement | null;
+  form?.addEventListener('submit', (ev) => {
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    const get = (k: string) => String(data.get(k) ?? '').trim();
+    const destination = get('destination') || 'not specified';
+    const lines = [
+      `Name: ${get('name')}`,
+      `Company: ${get('company') || '—'}`,
+      `Email: ${get('email')}`,
+      `Destination: ${destination}`,
+      `Dates: ${get('dates') || '—'}`,
+      `Travellers: ${get('travellers') || '—'}`,
+      `Budget band: ${get('budget') || 'not sure yet'}`,
+      '',
+      get('brief') || '(no brief pasted)',
+    ];
+    const subject = `Brief: ${destination}`;
+    const to = form.getAttribute('action')?.replace(/^mailto:/, '') ?? '';
+    const href =
+      `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+    ev.preventDefault();
+    location.href = href;
+  });
+</script>

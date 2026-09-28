@@ -1,23 +1,16 @@
 ---
 import { CONTACT_EMAIL } from '../lib/contact';
 /**
- * Footer, restructured onto the Harvey AI reference layout:
+ * Footer, on the Harvey AI reference layout:
  *
  *   1. a CTA band  — headline left, one button right
  *   2. a rule
  *   3. the mark and contact details on the left, link columns on the right
  *   4. copyright and legal links along the bottom
  *
- * Structure follows the reference; typography stays on Projectour's own
- * system (Space Grotesk display, IBM Plex Mono column labels) rather than
- * importing the reference's serif.
- *
- * Two things from the old footer are deliberately gone:
- *  - the circular social icon buttons, replaced by a text "Follow" column
- *    as in the reference. The hrefs are still the placeholder "#" they
- *    always were — real profile URLs are still needed.
- *  - the inert FAQ <button>. No FAQ page exists; a dead control in a
- *    rebuilt footer is worse than an honest omission.
+ * The "Follow" column's hrefs are still the placeholder "#" they always
+ * were — real profile URLs are still needed. There is no FAQ link because
+ * no FAQ page exists; a dead control is worse than an honest omission.
  */
 const YEAR = new Date().getFullYear();
 ---
@@ -25,8 +18,8 @@ const YEAR = new Date().getFullYear();
 <footer>
   <div class="wrap">
     <div class="f-cta">
-      <h2>Start running trips on autopilot.</h2>
-      <a class="f-pill" href="/signup">Sign up</a>
+      <h2>Bring us your next trip.</h2>
+      <a class="f-pill" href="/contact">Send a brief</a>
     </div>
 
     <div class="f-hr"></div>
@@ -51,21 +44,16 @@ const YEAR = new Date().getFullYear();
 
       <nav class="f-cols" aria-label="Footer">
         <div class="f-col">
-          <h4>Platform</h4>
-          <a href="/autopilot">Autopilot</a>
-          <a href="/how">How It Works</a>
-          <a href="/signup">Sign up</a>
-        </div>
-        <div class="f-col">
-          <h4>Network</h4>
-          <a href="/horizon">Horizon</a>
+          <h4>Services</h4>
           <a href="/destinations">Destinations</a>
+          <a href="/how">How it works</a>
+          <a href="/network">The network</a>
         </div>
         <div class="f-col">
           <h4>Company</h4>
           <a href="/about">About</a>
           <a href="/blog">Blog</a>
-          <a href="/signup">Contact</a>
+          <a href="/contact">Contact</a>
         </div>
         <div class="f-col">
           <h4>Follow</h4>

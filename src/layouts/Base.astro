@@ -1,6 +1,7 @@
 ---
 import SEO from '../components/SEO.astro';
 import Header from '../components/Header.astro';
+import type { NavId } from '../lib/nav';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
@@ -12,7 +13,7 @@ interface Props {
   ogType?: 'website' | 'article';
   noindex?: boolean;
   /** Which header nav item to mark active. See Header.astro. */
-  currentNav?: 'home' | 'autopilot' | 'horizon' | 'destinations' | 'how' | 'blog' | 'about';
+  currentNav?: NavId;
 }
 
 const { title, description, canonical, ogImage, ogType, noindex, currentNav } = Astro.props;
@@ -86,8 +87,8 @@ const organizationJsonLd = {
       );
       document.querySelectorAll('.rv:not(.in)').forEach((el) => io.observe(el));
 
-      // Accordion (used by the destination-page guarantee section, and
-      // reusable anywhere else `.acc-i` shows up later, e.g. an FAQ page).
+      // Accordion (the destination-page guarantee section, and anywhere
+      // else `.acc-i` shows up later, e.g. an FAQ page).
       document.querySelectorAll<HTMLButtonElement>('.acc-i > button').forEach((btn) => {
         btn.addEventListener('click', () => btn.parentElement?.classList.toggle('open'));
       });

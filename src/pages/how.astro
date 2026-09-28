@@ -1,106 +1,95 @@
 ---
 /**
- * How It Works — the nine stages, end to end.
+ * How it works — a trip through Projectour, brief to report.
  *
- * Rebuilt on the site's shared page patterns. The prototype's spine
- * carried a three-letter code, a name, a class pill and one line per
- * stage; this shows the same nine stages with the full body copy and the
- * interface beside them, so the page answers the question it is named
- * after rather than summarising it.
- *
- * Amber marks human-touchpoint stages only. It is reserved for manual
- * states across the design system and never used decoratively.
+ * Six steps, each with who carries it. Amber marks the money step only.
+ * It is reserved across the design system for a step a person must
+ * touch, and never used decoratively.
  */
 import Base from '../layouts/Base.astro';
-import AppShot from '../components/AppShot.astro';
 import { destArt } from '../lib/landmark/generator';
-import { STAGES } from '../lib/stages';
+import { PROCESS } from '../lib/process';
+import { networkCounts } from '../lib/counts';
 
-const AUTO = STAGES.filter((s) => s.cls === 'Automatic').length;
-const HUMAN = STAGES.length - AUTO;
+const { countries } = await networkCounts();
 const bandArt = destArt('Portugal', 'how-band', 'dark');
 ---
 
 <Base
-  title="How It Works"
-  description="One system, from first message to the last day of the trip — the nine stages every trip runs through, and where a person stays in the loop."
+  title="How it works"
+  description={`Send us the brief, we quote it with the operator in the destination, re-check everything on your yes, and run the trip on the ground. Six steps, all carried by people, in ${countries} countries.`}
   currentNav="how"
 >
   <!-- ============ HEAD ============ -->
   <section class="hx hx-ph">
     <p class="hx-ph-eye">The route</p>
-    <h1>One system, from first message to the last day of the trip.</h1>
+    <h1>One brief. One quote. One team on the ground.</h1>
     <p class="hx-ph-lede">
-      Every trip runs through the same nine stages. {AUTO} of them run on their own. The
-      other {HUMAN} are the points where a person should be deciding — and they stay that
-      way on purpose.
+      Every trip runs through the same {PROCESS.length} steps, whichever of the
+      {countries} countries it goes to. Each one is carried by a person, and you always know which.
     </p>
     <div class="hx-ph-cta">
-      <a class="btn" href="/signup">Request a demo</a>
-      <a class="btn-o" href="/autopilot">About Autopilot</a>
+      <a class="btn" href="/contact">Send a brief</a>
+      <a class="btn-o" href="/destinations">See coverage</a>
     </div>
   </section>
 
-  <!-- ============ STAGES + INTERFACE ============ -->
+  <!-- ============ STEPS ============ -->
   <section class="hx hx-sec">
-    <div class="hx-split">
-      <div>
-        <div class="hx-list" id="stage-list">
-          {
-            STAGES.map((s, i) => (
-              <div class:list={['hx-item', { on: i === 0 }]}>
-                <button type="button" aria-expanded={i === 0 ? 'true' : 'false'}>
-                  <span class="hx-n">{s.n}</span>
-                  <span>{s.name}</span>
-                </button>
-                <div class="hx-body">
-                  <div class="hx-body-in">
-                    <p>{s.body}</p>
-                    {s.cls === 'Human touchpoint' && (
-                      <span class="hx-amb">A person handles this</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-
-      <div class="hx-side">
-        <AppShot stage={1} class="hx-side-app" />
-        <p class="hx-cap">The same thread, at the selected step.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ WHERE A PERSON STAYS ============ -->
-  <section class="hx hx-sec">
-    <div class="hx-two" style="margin-bottom:clamp(34px,4vw,60px)">
-      <h2>Where a person stays in the loop</h2>
-      <p>
-        Two of the nine stages are deliberately not automated. Both involve money or a
-        commitment to a customer, and both are decisions rather than steps.
-      </p>
-    </div>
     <div class="hx-rows">
       {
-        STAGES.filter((s) => s.cls === 'Human touchpoint').map((s) => (
-          <div class="hx-row human">
+        PROCESS.map((s) => (
+          <div class:list={['hx-row', { human: s.name === 'Book' }]}>
             <div class="hx-row-n">{s.n}</div>
             <h3>{s.name}</h3>
-            <p class="hx-row-b">{s.manual}</p>
-            <div class="hx-row-t">Needs a person</div>
+            <p class="hx-row-b">{s.body}</p>
+            <div class="hx-row-t">{s.who}</div>
           </div>
         ))
       }
     </div>
     <div class="hx-note" style="margin-top:clamp(30px,3.6vw,52px)">
-      <div class="hx-note-t">Manual &middot; always</div>
+      <div class="hx-note-t">Money &middot; always confirmed</div>
       <p>
-        Payment marking stays manual, deliberately. Autopilot does not move money on its
-        own, and every automated step can be pulled into manual control at any point.
+        Deposits, balances and supplier payments are confirmed by a person, in writing, every
+        time. Nothing about money happens silently, and nothing is booked on a stale quote.
       </p>
+    </div>
+  </section>
+
+  <!-- ============ WHAT YOU KEEP ============ -->
+  <section class="hx hx-sec">
+    <div class="hx-two" style="margin-bottom:clamp(34px,4vw,60px)">
+      <h2>What stays yours</h2>
+      <p>
+        We are the operator behind your trip, not a name on it. The client sees you.
+      </p>
+    </div>
+    <div class="hx-grid">
+      <div>
+        <div class="hx-cell-n">01</div>
+        <h3>The client</h3>
+        <p>
+          Every voucher, contact and message in the destination is on your behalf. Your client
+          never needs to know who is behind it.
+        </p>
+      </div>
+      <div>
+        <div class="hx-cell-n">02</div>
+        <h3>The margin</h3>
+        <p>
+          We quote a net rate. Your markup sits on top, and the operator never sees what you
+          charge. Net pricing never reaches the traveller.
+        </p>
+      </div>
+      <div>
+        <div class="hx-cell-n">03</div>
+        <h3>The decision</h3>
+        <p>
+          Anything that changes what was sold comes back to you as a specific question with
+          the options already gathered. Nothing is decided for you.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -109,36 +98,9 @@ const bandArt = destArt('Portugal', 'how-band', 'dark');
     <div class="hx-band-art" aria-hidden="true" set:html={bandArt} />
     <div class="hx hx-band-in">
       <span class="hx-band-tag">The whole point</span>
-      <h2>One thread, from the first message to the last invoice.</h2>
-      <p>No forwarded email chains, and no spreadsheet of who owes what.</p>
-      <a class="btn" href="/signup">Request a demo</a>
+      <h2>Say yes to the destination before you know how you will deliver it.</h2>
+      <p>You already have the operator. Send the brief.</p>
+      <a class="btn" href="/contact">Send a brief</a>
     </div>
   </section>
 </Base>
-
-<script>
-  // Stage list, mirrored by the interface beside it. Server-rendered with
-  // the first stage open, so this only enhances working markup.
-  const items = Array.from(document.querySelectorAll<HTMLElement>('.hx-item'));
-  const app = document.querySelector<HTMLElement>('.hx-side-app');
-  const pill = app?.querySelector<HTMLElement>('.app-stage');
-  const rail = Array.from(app?.querySelectorAll<HTMLElement>('.app-rail i') ?? []);
-
-  function open(index: number) {
-    items.forEach((el, i) => {
-      const on = i === index;
-      el.classList.toggle('on', on);
-      el.querySelector('button')?.setAttribute('aria-expanded', on ? 'true' : 'false');
-    });
-    const label = items[index].querySelector('button span:last-child')?.textContent ?? '';
-    if (pill) pill.textContent = label;
-    rail.forEach((seg, i) => {
-      seg.classList.toggle('done', i < index);
-      seg.classList.toggle('now', i === index);
-    });
-  }
-
-  items.forEach((el, i) => {
-    el.querySelector('button')?.addEventListener('click', () => open(i));
-  });
-</script>

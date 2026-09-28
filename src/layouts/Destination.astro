@@ -15,11 +15,9 @@
  *    (see src/lib/destinationEmail.ts) instead of the original regex,
  *    which dropped accented letters instead of transliterating them.
  *
- * Everything else — award badges, services grid, guarantee accordion —
- * is a faithful copy, including the parts flagged separately as open
- * questions (the award badges' accuracy is unconfirmed; this page
- * doesn't resolve that, just carries it forward visibly rather than
- * silently).
+ * The award badges the prototype carried are gone pending verification
+ * (see CLAUDE.md). The services grid and guarantee accordion are shared
+ * blocks from src/lib/destinationContent.ts.
  */
 import type { CollectionEntry } from 'astro:content';
 import Base from './Base.astro';
@@ -85,7 +83,7 @@ const touristDestinationJsonLd = {
         <h1>{name}</h1>
         <p class="hx-ph-lede">{description}</p>
         <div class="hx-ph-cta">
-          <a class="btn" href="/signup">Request a demo</a>
+          <a class="btn" href={`/contact?destination=${encodeURIComponent(name)}`}>Request a quote</a>
           <a class="btn-o" href="#services">Explore services</a>
         </div>
       </div>
@@ -98,7 +96,7 @@ const touristDestinationJsonLd = {
   <section class="hx hx-sec" id="services">
     <div class="hx-two" style="margin-bottom:clamp(34px,4vw,60px)">
       <h2>End-to-end services</h2>
-      <p>Everything needed to sell and run a trip in {name}, in one place.</p>
+      <p>Everything needed to sell and run a trip in {name}, from one operator.</p>
     </div>
     <div class="hx-grid">
       {
@@ -117,7 +115,7 @@ const touristDestinationJsonLd = {
     <div class="hx-split">
       <div>
         <p class="hx-ph-eye">The Projectour guarantee</p>
-        <h2>Sell and operate your trips without the chasing.</h2>
+        <h2>Sell {name} without building it from scratch.</h2>
       </div>
       <div>
         <div class="acc">
@@ -135,7 +133,7 @@ const touristDestinationJsonLd = {
             ))
           }
         </div>
-        <a class="btn" style="margin-top:32px" href="/signup">Start today</a>
+        <a class="btn" style="margin-top:32px" href={`/contact?destination=${encodeURIComponent(name)}`}>Send a brief</a>
       </div>
     </div>
   </section>

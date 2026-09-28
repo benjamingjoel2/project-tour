@@ -4,131 +4,115 @@ Context for any Claude Code session working in this repo. Read this first.
 
 ## What Projectour is
 
-Travel-tech company. Two products, and they are **not** the same thing:
+A **global destination management company (DMC)**. One service, sold B2B to travel
+agencies, advisors, creators and tour operators:
 
-- **Autopilot** — the *software*. Automates the coordination workflow between traveller, travel
-  agency, and ground operator (DMC). Sold as a monthly subscription.
-- **Horizon** — the *partner/contact network*. Vetted local operators across many countries.
-  Not software.
+> Send us the brief. We quote it with a vetted local operator in the destination, re-check
+> everything on the client's yes, book it, and run it on the ground. The agency keeps the
+> client relationship and its margin.
 
-Three ways customers buy:
+The coverage is a network of local ground operators in 137 countries, each vetted by
+Projectour and used on real trips.
 
-1. **Horizon only** — no software. They inquire, we run the trip through the network.
-2. **Autopilot only** — they subscribe and use their own existing contacts.
-3. **Autopilot + Horizon** — they subscribe, and Horizon is available inside the software.
+### History, so you do not reintroduce it
+
+Until September 2026 the company sold two things: **Autopilot**, a coordination software
+product, and **Horizon**, the operator network. The founder dropped the software. The network
+*is* the company now, under the Projectour name. `hyperporter-3.html` is the archived
+prototype of that old two-product site and is not served.
 
 ### Terminology rules — do not break these
 
-- Never describe Horizon as the software.
-- Never describe Autopilot as the contact network.
-- When referring to the platform/software, the word is **Autopilot**.
-- Do not overstate automation. Payment marking is **manual** — a human confirms it.
-  "Auto-confirmation" language is wrong.
+- Projectour is **not software**. Never describe a platform, app, dashboard, thread, pipeline,
+  automation or subscription. There is nothing to "sign up" for or "demo".
+- Do not use the names **Autopilot** or **Horizon** anywhere on the site. The network is
+  "the network" or "Projectour's network".
+- The customer's action is to **send a brief** (or **request a quote**). The company's
+  actions are to quote, confirm, book, prepare and run.
+- Every step is carried by a person. Money is confirmed by a person, in writing. Do not
+  overstate speed or make service-level promises (response times, uptime) that nobody has
+  signed off.
+- The audience is the travel business, never the end traveller. Net rates are for the
+  agency; the traveller never sees them.
 
 ## Current state of the code
 
-`hyperporter.html` — single file, ~420KB. No build step. This is a **prototype to migrate from**,
-not the long-term architecture. It contains:
+Astro 7, fully static, no adapter. `npm run build` runs `astro check`, `astro build`, then
+`scripts/check-seo.mjs`, which fails on SEO contradictions and on a canonical pointing at
+the upstream domain. Deploys to **Vercel on push to `main`** — see `VERCEL.md`. Preview
+deployments are noindex with no sitemap. Nothing hardcodes a domain: the origin resolves from
+the environment in `src/lib/site.mjs`.
 
-- Inline CSS (custom properties, no framework) and inline JS (no dependencies).
-- Google Fonts: Space Grotesk (display), IBM Plex Sans (body), IBM Plex Mono (labels/eyebrows).
-- A client-side router: `go(id)` toggles `.view.on` across sections `#view-{id}`.
-  **There are no real URLs.** This is the single biggest problem with the current build.
+### Routes
 
-### Views
+| Route | Source | Notes |
+|---|---|---|
+| `/` | `src/pages/index.astro` | Dark map hero, scenes, regions, services, process, stats |
+| `/how` | `src/pages/how.astro` | The six-step process, who carries each step |
+| `/network` | `src/pages/network.astro` | Coverage, vetting, note for operators |
+| `/destinations` | `src/pages/destinations/index.astro` | Interactive map and the full country list |
+| `/destinations/{slug}` | `src/layouts/Destination.astro` | 137 pages, noindex until each has unique content |
+| `/regions/{slug}` | `src/pages/regions/[slug].astro` | 7 pages |
+| `/blog`, `/blog/{slug}` | content collection | 4 posts |
+| `/contact` | `src/pages/contact.astro` | The brief form. No backend: it composes an email |
+| `/about`, `/terms`, `/privacy` | | noindex until bios are real and counsel has reviewed |
 
-`home`, `autopilot`, `horizon`, `destinations`, `region`, `dest`, `how`, `about`, `signup`,
-`blog`, `post`
+Old URLs (`/autopilot`, `/horizon`, `/signup`, `/preview/*`) redirect in `vercel.json`.
 
-### Data structures in the script block
+### Data
 
-- `POSTS` — 7 blog articles, full HTML bodies.
-- `STAGES` — 9 pipeline stages, drives the Autopilot zigzag and How-It-Works spine.
-- `REGIONS` — 6 entries, drives the Horizon radial diagram.
-- `FEED` — 12 entries for the dispatch marquee.
-- `DEST` — 7 regions containing 137 countries total.
-- `DESC` — one-line description per country (all 137 covered).
-- `LM` — country -> `[landmark archetype, base hue]`.
-- `A` — 50 landmark illustration builders (`A.flame`, `A.savanna`, `A.taj`, …).
-- `SERVICES`, `GUARANTEE` — destination page content blocks.
-- `DEST_IMG` — **empty by design.** Set `DEST_IMG['Azerbaijan']='https://…'` and that
-  destination uses a real photo instead of the generated illustration, in both hero and tile.
+- `src/lib/process.ts` — `PROCESS`, the six steps. Drives `/how` and the homepage accordion.
+- `src/lib/counts.ts` — the single source for country and region figures. Never hard-code them.
+- `src/lib/destinationContent.ts` — `SERVICES` and `GUARANTEE`, the shared destination blocks.
+- `src/lib/feed.ts` — illustrative entries for the header's activity rail.
+- `src/lib/contact.ts` — the one place the contact domain is written. It is spelled
+  `projecture.com`, deliberately; see the comment there.
+- `src/content/destinations/*.md` — frontmatter only: `title`, `region`, `description`,
+  optional `heroImage` + `heroAlt`, `index` (default false).
+- `src/content/blog/*.mdx` — `title`, `dek`, `cat`, `date`.
+- `src/lib/landmark/` — 50 generated SVG landmark scenes, the fallback wherever a
+  destination has no `heroImage`.
+- `src/lib/worldMap.ts` + `WorldMap.astro` — Natural Earth geometry projected at build time.
+  The build fails if any destination has no geometry.
 
 ### Design system
 
-- Dark throughout. `--void #07080A`, `--signal #46C6B9` (teal), `--amber #E8A33C`.
-- Amber is reserved for human-touchpoint / manual states. Do not use it decoratively.
-- Reveal-on-scroll: elements get `.rv`, IntersectionObserver adds `.in`. Re-armed on route change.
-- Animations: `march` (marquees), `fly` (hero flight arcs), `run`, `spin`, `blip`.
-- Full `prefers-reduced-motion` kill switch exists. Keep it.
+Light base, punctuated by full-bleed dark moments: the homepage hero, the coverage map, the
+statement bands, the stats block and the footer. Structure and restraint from harvey.ai; the
+dark hero and coverage map from starlink.com.
 
-### Illustrations
+- **Display type**: Newsreader (serif). **Everything else**: Hyperlocal ROM, the brand cut of
+  ABC ROM. IBM Plex Mono survives only in the activity rail.
+- **No accent colour.** `--signal` resolves to a warm grey. Amber is the only colour on the
+  site and means one thing: a step a person must touch. On this site that is the money step.
+  Do not use it decoratively.
+- Shared page patterns are the `hx-` classes in `src/styles/global.css`: page head, numbered
+  rows, feature grid, note, tiles, editorial index, statement band, dark stats.
+- Reveal-on-scroll (`.rv` → `.in`) and a full `prefers-reduced-motion` kill switch. Keep it.
 
-Destination artwork is **generated SVG**, not photography — 50 hand-built landmark scenes
-(Flame Towers for Azerbaijan, Tiger's Nest for Bhutan, Belém Tower for Portugal, and so on),
-seeded per country for palette variation. These are placeholders standing in until real
-photography is licensed. Keep them as the fallback when `DEST_IMG` has no entry.
+### Font licence — outstanding
+
+Hyperlocal ROM was supplied under a **desktop** licence, whose terms forbid "storing on
+publicly available servers". It is live at the founder's explicit instruction. A Dinamo
+**web** licence is still required.
 
 ## Known gaps — these need doing
 
-1. **No URLs.** All 137 destinations, 7 regions, and 7 blog posts are unindexable. This is why
-   the migration matters more than any feature.
-2. **No SEO.** No per-page title, meta description, canonical, OG tags, sitemap, robots.txt,
-   structured data, or image alt text anywhere.
-3. **Thin content risk.** 137 destination pages currently share near-identical copy apart from
-   the country name. Google penalises this. Each page needs genuinely unique material before
-   the SEO play is worth anything.
-4. **About page** has three `Name pending` placeholder bios.
-5. **Footer** Terms / Privacy / FAQ buttons have no handlers.
-6. **Country count** — site says "130+ countries", the dataset holds 137, and a founder brief
-   said "100+". Unresolved. Confirm the real number before publishing.
-7. **Award badges** — "Hospitality B2B Travel Partner" and "UN Tourism Winner" have been
-   REMOVED from all 137 destination pages pending confirmation. Restore only once verified.
-
-
-## Design direction (current)
-
-Light base, punctuated by full-bleed dark moments — the homepage hero, the
-coverage map, the statement bands, the stats block and the footer. Structure
-and restraint come from harvey.ai; the cinematic dark hero and the coverage
-map come from starlink.com.
-
-- **Display type**: Newsreader (serif). **Everything else**: Hyperlocal ROM,
-  the brand cut of ABC ROM. IBM Plex Mono survives only in the dispatch rail.
-- **No accent colour.** `--signal` resolves to a warm grey. Amber is the only
-  colour on the site and still means one thing: a step a person must touch.
-- `AppShot.astro` draws the Autopilot interface in markup, standing wherever
-  the reference would put a product screenshot. Re-points per pipeline stage.
-- `WorldMap.astro` + `lib/worldMap.ts`: real Natural Earth geometry projected
-  to SVG at build time. 110m shapes plus centroid dots for the 13 island
-  states 110m drops. Two states only — covered or not. The build **fails** if
-  any destination has no geometry, so the map can never under-report.
-- `lib/counts.ts` is the single source for country/region figures. Never
-  hard-code them again.
-
-### Font licence — outstanding
-Hyperlocal ROM was supplied under a **desktop** licence, whose terms forbid
-"storing on publicly available servers". It is live on hyperporter.com at the
-founder's explicit instruction. A Dinamo **web** licence is still required.
-
-## Migration target
-
-Astro (unless the CTO prefers otherwise). What it must produce:
-
-- Content collections: `src/content/destinations/*.md`, `src/content/blog/*.md`.
-  Frontmatter carries `title`, `description`, `heroImage`, `heroAlt`, `region`, `slug`.
-- Real routes: `/destinations/azerbaijan`, `/regions/asia`, `/blog/{slug}`.
-- Astro's image pipeline for responsive AVIF/WebP. Alt text required on every image.
-- SEO component: title, meta description, canonical, OG/Twitter, JSON-LD
-  (`Organization`, `TouristDestination`, `BlogPosting`).
-- Auto `sitemap.xml` and `robots.txt`.
-- Deploy: **Vercel, on push to `main`** — settled, see `VERCEL.md`. This repo is
-  a fork serving its own domain, so nothing may hardcode `hyperporter.com`: the
-  origin resolves from the environment in `src/lib/site.mjs`, and
-  `scripts/check-seo.mjs` fails the build if a canonical points at the upstream
-  site. Preview deployments are noindex with no sitemap.
-
-Port the design system and the landmark SVG generator across as-is. They work.
+1. **Thin destination content.** 137 destination pages share the same blocks apart from the
+   country name and a one-line description. They are noindex until each has genuinely unique
+   material. Flip `index: true` per page once it does.
+2. **Contact form has no backend.** It opens the visitor's mail client with a composed
+   email. Good enough to launch, but a real form handler is better.
+3. **About page** has three `Name pending` placeholder bios and is noindex.
+4. **Terms and Privacy** are drafts pending counsel and are noindex.
+5. **Country count** — the dataset holds 137; a founder brief said "100+". Confirm the real
+   number before making claims in print. The site derives it, so changing the dataset changes
+   every page.
+6. **Award badges** — "Hospitality B2B Travel Partner" and "UN Tourism Winner" have been
+   REMOVED pending confirmation. Restore only once verified.
+7. **Footer social links** are `#` placeholders.
+8. **Photography.** All destination art is generated SVG. Set `heroImage` + `heroAlt` in a
+   destination's frontmatter to use a licensed photo. See `public/photos/README.md`.
 
 ## Working style
 

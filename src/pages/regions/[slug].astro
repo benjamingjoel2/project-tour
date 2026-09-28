@@ -1,9 +1,6 @@
 ---
 /**
- * Ported from hyperporter-3.html's openRegion() / #view-region. One
- * static page per canonical region (see REGIONS in content.config.ts —
- * this is the taxonomy Horizon's radial diagram gets rebuilt onto when
- * that page is ported, rather than keeping its own overlapping list).
+ * One static page per canonical region (see REGIONS in content.config.ts).
  */
 import { getCollection } from 'astro:content';
 import type { InferGetStaticPropsType } from 'astro';
@@ -33,19 +30,19 @@ const { region, countries } = Astro.props;
 
 <Base
   title={region}
-  description={`Sell and operate trips across ${region} on vetted local operators from the Horizon network — quoted, booked and run without cold outreach.`}
+  description={`Sell trips across ${region} through Projectour's vetted local operators — quoted, booked and run on the ground, without cold outreach.`}
   currentNav="destinations"
 >
   <section class="hx hx-ph">
     <p class="hx-ph-eye"><a class="hx-back" href="/destinations">&larr; All destinations</a></p>
     <h1>Sell trips in {region}</h1>
     <p class="hx-ph-lede">
-      {countries.length} countries with vetted local operators from the Horizon network —
-      quoted, booked and run without cold outreach.
+      {countries.length} countries with vetted local operators — quoted, booked and run on the
+      ground by Projectour, without cold outreach.
     </p>
     <div class="hx-ph-cta">
-      <a class="btn" href="/signup">Request a demo</a>
-      <a class="btn-o" href="/horizon">About Horizon</a>
+      <a class="btn" href={`/contact?destination=${encodeURIComponent(region)}`}>Send a brief</a>
+      <a class="btn-o" href="/how">How it works</a>
     </div>
   </section>
 
