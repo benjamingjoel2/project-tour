@@ -59,8 +59,8 @@ Only needed once, on a fresh server.
 **Steps**
 
 ```sh
-git clone https://github.com/benjamingjoel2/real.hyperporter.git /opt/hyperporter
-cd /opt/hyperporter
+git clone https://github.com/benjamingjoel2/project-tour.git /opt/projectour
+cd /opt/projectour
 
 # Issue the TLS certificate. Run this ONCE, before the first `up`.
 # Do a dry run against Let's Encrypt's staging CA first:
@@ -87,7 +87,7 @@ with a temporary self-signed cert, then replaces it with the real one.
 
 ## Deploying a change
 
-**The live checkout is `/opt/hyperporter`**, not a home directory. Merge to
+**The live checkout is `/opt/projectour`**, not a home directory. Merge to
 `main` first — the server pulls from `main`, so nothing that is still on a
 branch will appear.
 
@@ -97,7 +97,7 @@ building, and anything typed after that silently runs on your laptop
 instead:
 
 ```sh
-ssh root@hyperporter.com 'cd /opt/hyperporter && git pull --no-edit origin main && nohup docker compose up -d --build > /tmp/deploy.log 2>&1 < /dev/null &'
+ssh root@hyperporter.com 'cd /opt/projectour && git pull --no-edit origin main && nohup docker compose up -d --build > /tmp/deploy.log 2>&1 < /dev/null &'
 ```
 
 That returns in seconds. The build keeps going on the server because it is
@@ -107,7 +107,7 @@ ten minutes.
 Check on it as often as you like:
 
 ```sh
-ssh root@hyperporter.com 'tail -30 /tmp/deploy.log; echo ---; cd /opt/hyperporter && docker compose ps'
+ssh root@hyperporter.com 'tail -30 /tmp/deploy.log; echo ---; cd /opt/projectour && docker compose ps'
 ```
 
 Done when `web` reads `healthy` and the log ends with `Started`. Then:
@@ -123,7 +123,7 @@ server — Mau has done this for TLS fixes. Merge rather than overwrite, or
 you will throw that work away:
 
 ```sh
-ssh root@hyperporter.com 'cd /opt/hyperporter && git config pull.rebase false && git pull --no-edit origin main'
+ssh root@hyperporter.com 'cd /opt/projectour && git config pull.rebase false && git pull --no-edit origin main'
 ```
 
 ### Building on the server is the weak point
@@ -145,7 +145,7 @@ problem. Not done yet.
 | `nginx/default.conf` | HTTP→HTTPS redirect, www→apex, static serving, caching, 404. |
 | `scripts/init-letsencrypt.sh` | One-time TLS bootstrap. |
 | `data/` | Certificates and ACME webroot. Created on the server, **git-ignored** — never commit it. |
-| `/opt/hyperporter` | Where the checkout lives on the production server. |
+| `/opt/projectour` | Where the checkout lives on the production server. |
 
 ### Certificate renewal
 
