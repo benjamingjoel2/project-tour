@@ -3,7 +3,8 @@
 #   git pull origin main
 #   docker compose up -d --build
 #
-# First time only, run scripts/init-letsencrypt.sh first — see DEPLOY.md.
+# First time only, run scripts/init-letsencrypt.sh first — see VERCEL.md,
+# "Inherited Docker stack". This stack is not how the site is deployed.
 
 services:
   web:

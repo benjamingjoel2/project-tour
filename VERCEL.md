@@ -1,9 +1,9 @@
 # Deploying this site on Vercel
 
 This repository is a **fork** of the original Projectour site. It is its own
-project with its own design, deployed to its own domain on Vercel. The
-Docker + nginx stack described in `DEPLOY.md` belongs to the original
-deployment and is not used here — see [Inherited Docker stack](#inherited-docker-stack).
+project with its own design, deployed to its own domain on Vercel. An
+inherited Docker + nginx stack is still in the tree but is not used here —
+see [Inherited Docker stack](#inherited-docker-stack).
 
 The site is fully static. Nothing runs server-side at request time, so no
 Astro adapter is needed.
@@ -154,9 +154,25 @@ set in `astro.config.mjs`.
 
 `Dockerfile`, `docker-compose*.yml`, `nginx/` and
 `scripts/init-letsencrypt.sh` came from the original repository, which
-self-hosts. They still work, and `docker-compose.dev.yml` is a convenient
-way to run the site without installing Node. They are not part of the Vercel
-deploy.
+self-hosts. They are not part of the Vercel deploy, and the document that
+explained how to stand them up (`DEPLOY.md`) has been removed — it described
+the upstream site's server and domain, which are not this project's. The
+files are kept only because `docker-compose.dev.yml` is a convenient way to
+run the site locally without installing Node:
+
+```sh
+docker compose -f docker-compose.dev.yml up   # then open http://localhost:4321
+```
+
+The production stack (`docker-compose.yml` + `nginx/`) is undocumented and
+untested here. Standing it up needs a one-time TLS bootstrap via
+`scripts/init-letsencrypt.sh`, because nginx will not start while the
+certificate paths in `nginx/default.conf` are missing. Recover the full
+procedure from git history if it is ever wanted:
+
+```sh
+git show 5a156f2:DEPLOY.md
+```
 
 One change: `SITE_URL` no longer defaults to `hyperporter.com` in the
 Dockerfile or compose file. It is required — set it in a `.env` file beside
