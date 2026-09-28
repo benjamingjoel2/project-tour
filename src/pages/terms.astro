@@ -1,9 +1,9 @@
 ---
 /**
- * Terms & Conditions. NOT ported — the prototype had no terms content at
- * all, just dead footer buttons. This is a from-scratch draft of standard
- * B2B terms matching how the product actually works (subscription software
- * + network services, manual payment marking, no consumer relationship).
+ * Terms & Conditions. A from-scratch draft of standard B2B terms for a
+ * destination management company: we arrange trip services through local
+ * operators for travel businesses, on the terms of each quote. No
+ * consumer relationship, no software licence.
  *
  * DRAFT — must be reviewed by counsel before launch. noindex until then.
  * Reuses the article (.art-*) styles rather than inventing a new layout.
@@ -11,10 +11,10 @@
 import Base from '../layouts/Base.astro';
 import { CONTACT_EMAIL } from '../lib/contact';
 
-const updated = '20 August 2026';
+const updated = '28 September 2026';
 ---
 
-<Base title="Terms & Conditions" description="The terms governing use of Projectour's Autopilot software and Horizon network services." noindex>
+<Base title="Terms & Conditions" description="The terms governing Projectour's destination management services." noindex>
   <article class="hx hx-art">
     <p class="hx-art-m">Legal &middot; last updated {updated}</p>
       <h1 class="hx-art-t">Terms &amp; Conditions</h1>
@@ -25,71 +25,71 @@ const updated = '20 August 2026';
     <div class="art-body">
       <h2>1. Who we are</h2>
       <p>
-        Projectour ("we", "us") provides travel operations infrastructure to travel businesses: <strong>Autopilot</strong>,
-        subscription software that coordinates trip workflows, and <strong>Horizon</strong>, a network of vetted
-        local ground operators through which we arrange trip services. Our registered office is Intelak Hub, Offices
-        4, One Central, Dubai World Trade Center, Dubai, UAE.
+        Projectour ("we", "us") is a destination management company. We arrange and operate trip services for
+        travel businesses through a network of vetted local ground operators. Our registered office is Intelak
+        Hub, Offices 4, One Central, Dubai World Trade Center, Dubai, UAE.
       </p>
 
       <h2>2. Who these terms apply to</h2>
       <p>
-        Our services are provided to businesses — travel agencies, advisors, creators, and destination management
-        companies — not to consumers. By creating an account or engaging us, you confirm you are acting in the
-        course of business and are authorised to bind the business you represent.
+        Our services are provided to businesses — travel agencies, advisors, creators and tour operators — not to
+        consumers. By sending us a brief or accepting a quote, you confirm you are acting in the course of business
+        and are authorised to bind the business you represent.
       </p>
 
-      <h2>3. Autopilot (software)</h2>
+      <h2>3. Quotes</h2>
       <p>
-        Autopilot is provided on a monthly subscription. We grant you a non-exclusive, non-transferable right to use
-        it for your own business operations during your subscription. You retain ownership of the data you put into
-        it; we retain ownership of the software. Fees, plan limits, and any trial arrangements are as stated at the
-        point of purchase.
-      </p>
-      <p>
-        Automated steps in Autopilot can be placed under manual control at any time. <strong>Payment marking is
-        always manual</strong>: the software does not move money or confirm receipt of funds on its own — a human
-        confirms every payment.
+        We quote each trip on the basis of the brief you give us, at a net rate for your business. Quotes are valid
+        for the period stated on the quote. Availability and pricing are only assured once re-verified with the
+        operator and confirmed by us in writing after your acceptance. Where a component has changed between quote
+        and confirmation, we will tell you before anything is booked.
       </p>
 
-      <h2>4. Horizon (network services)</h2>
+      <h2>4. Bookings and payment</h2>
       <p>
-        Where you engage us to run a trip through Horizon, we arrange services with local operators on the terms
-        agreed per trip (itinerary, price, and inclusions as quoted). Quotes are valid as stated on the quote;
-        availability is only assured once re-verified and confirmed. Operator services are subject to the operator's
-        own conditions where these are notified to you in the quote.
+        A booking exists once we confirm it in writing. Deposit, balance and cancellation terms are as stated on the
+        quote and may pass through the terms of the operators and suppliers involved, which we will set out where
+        they apply. Payments are confirmed by us in writing; we do not treat a payment as received until we have
+        confirmed it.
       </p>
 
-      <h2>5. Your responsibilities</h2>
+      <h2>5. Changes and cancellation</h2>
+      <p>
+        Changes after confirmation are re-quoted where they affect price or availability. Cancellation charges are as
+        stated on the quote and reflect the terms of the underlying suppliers. Where we can recover a cost from a
+        supplier on your behalf, we will.
+      </p>
+
+      <h2>6. Your responsibilities</h2>
       <ul>
-        <li>Keep your account credentials secure and accurate.</li>
         <li>Ensure information you supply about trips and travellers is accurate and lawfully shared with us.</li>
         <li>Hold the licences and consents your own business requires to sell travel.</li>
-        <li>Not misuse the services, attempt unauthorised access, or resell access without our agreement.</li>
+        <li>Advise travellers of passport, visa, health and insurance requirements for the destination.</li>
+        <li>Not pass our net rates to travellers, or contract our operators directly for a trip we have quoted.</li>
       </ul>
 
-      <h2>6. Liability</h2>
+      <h2>7. Liability</h2>
       <p>
-        Neither party excludes liability that cannot lawfully be excluded. Otherwise, our aggregate liability in any
-        twelve-month period is limited to the fees you paid us in that period, and neither party is liable for
-        indirect or consequential loss. We are not the supplier of underlying travel services (transport,
-        accommodation, activities); responsibility for their performance rests with the operator providing them,
-        without limiting any responsibility we have for our own arranging services.
+        Neither party excludes liability that cannot lawfully be excluded. Otherwise, our aggregate liability in
+        respect of a trip is limited to the fees you paid us for that trip, and neither party is liable for indirect
+        or consequential loss. We arrange travel services; the transport, accommodation and activities themselves
+        are supplied by the operators and suppliers who provide them, and responsibility for their performance rests
+        with them, without limiting any responsibility we have for our own arranging services.
       </p>
 
-      <h2>7. Suspension and termination</h2>
+      <h2>8. Confidentiality</h2>
       <p>
-        You can cancel your subscription effective at the end of the current billing period. We may suspend or
-        terminate for material breach, non-payment, or unlawful use, with notice where practicable. On termination
-        we will make your data available for export for 30 days.
+        Net rates, operator identities and your client details are confidential to the parties and are not disclosed
+        beyond what is needed to run the trip.
       </p>
 
-      <h2>8. Changes</h2>
+      <h2>9. Changes to these terms</h2>
       <p>
-        We may update these terms; material changes will be notified to account holders in advance. Continued use
-        after the effective date constitutes acceptance.
+        We may update these terms; material changes will be notified to our customers in advance. Continued use of
+        our services after the effective date constitutes acceptance.
       </p>
 
-      <h2>9. Governing law</h2>
+      <h2>10. Governing law</h2>
       <p>
         These terms are governed by the laws of the Emirate of Dubai and the applicable federal laws of the United
         Arab Emirates, and the courts of Dubai have exclusive jurisdiction.

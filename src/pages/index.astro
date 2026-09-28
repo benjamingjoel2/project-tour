@@ -2,89 +2,92 @@
 /**
  * Homepage, on the harvey.ai structure.
  *
- * The reference anchors every section with something to look at — a large
- * product screenshot, a client-logo wall, a photographed customer, video.
- * That is most of why its pages read as substantial. The first pass here
- * built only the text-led sections and came out looking empty.
- *
- * What that gap is filled with now:
- *  - AppShot, the Autopilot interface drawn in markup, standing where the
- *    reference puts a screenshot: the hero frame, the software card, and
- *    the stage detail panel. It re-points at a different pipeline stage
- *    per placement, which a captured image could not do.
- *  - the destination artwork, at full bleed, for the network sections.
+ * The reference anchors every section with something to look at. With no
+ * software to screenshot, that is the destination artwork: a row of
+ * scenes under the hero, full-bleed art behind the statement band.
  *
  * Still deliberately absent, because they cannot be filled honestly:
- *  - the client-logo wall. No logos exist to show; inventing them would be
- *    fabrication. Plain facts carry that space instead.
- *  - the customer testimonial and video carousel. No real quote or footage
- *    exists, and writing one for ourselves would be worse than the gap.
+ *  - a client-logo wall. No logos exist to show; plain facts carry that
+ *    space instead.
+ *  - a customer testimonial. No real quote exists, and writing one for
+ *    ourselves would be worse than the gap.
  *
- * "137" is the number the dataset holds, used in place of the prototype's
- * "130+". The public figure is still unresolved — see CLAUDE.md.
+ * Every figure comes from the destinations collection via networkCounts()
+ * — see src/lib/counts.ts. The public country figure is still an open
+ * question (CLAUDE.md), but at least it is one number everywhere.
  */
 import Base from '../layouts/Base.astro';
-import AppShot from '../components/AppShot.astro';
 import WorldMap from '../components/WorldMap.astro';
 import { destArt } from '../lib/landmark/generator';
-import { STAGES } from '../lib/stages';
+import { PROCESS } from '../lib/process';
+import { SERVICES } from '../lib/destinationContent';
+import { networkCounts } from '../lib/counts';
 import { getCollection } from 'astro:content';
-import { REGIONS } from '../content.config';
 import { slugify } from '../lib/slug';
 
+const { countries, regions, regionCount } = await networkCounts();
 const destinations = await getCollection('destinations');
-const COUNTRIES = destinations.length;
-const COVERED = REGIONS.filter((r) => destinations.some((d) => d.data.region === r));
-const AUTO = STAGES.filter((s) => s.cls === 'Automatic').length;
-const HUMAN = STAGES.length - AUTO;
 
-const frameArt = destArt('Peru', 'frame-bg');
-const horizonArt = destArt('Kenya', 'card-hz', 'dark');
+/** One scene per region, so the row reads as coverage rather than decoration. */
+const SCENES = [
+  { name: 'Kenya', region: 'Africa' },
+  { name: 'Japan', region: 'Asia' },
+  { name: 'Portugal', region: 'Europe' },
+  { name: 'Oman', region: 'Middle East' },
+  { name: 'Mexico', region: 'North & Central America' },
+  { name: 'Peru', region: 'South America' },
+  { name: 'New Zealand', region: 'Australia & Oceania' },
+  { name: 'Morocco', region: 'Africa' },
+] as const;
+
 const bandArt = destArt('Morocco', 'band-bg', 'dark');
 ---
 
 <Base
   title="Home"
-  description="Travel operations infrastructure — Autopilot software and the Horizon partner network, built for travel businesses."
+  description={`Projectour is a global destination management company. Bring us the trip and we quote it, book it and run it on the ground through vetted local operators in ${countries} countries.`}
   currentNav="home"
 >
   <!-- ============ HERO ============ -->
   <section class="hx-shero">
     <div class="hx-shero-map" aria-hidden="true"><WorldMap bare /></div>
     <div class="hx hx-shero-in">
-      <h1 class="hx-shero-h">Run trips on autopilot.</h1>
+      <h1 class="hx-shero-h">Your ground operator in {countries} countries.</h1>
       <p>
-        Autopilot coordinates the work between you, your traveller and the operator on the
-        ground. Horizon is the network of operators it reaches — {COUNTRIES} countries.
+        Projectour is a global destination management company. Send us the trip and we quote
+        it, book it and run it on the ground, through local operators we have vetted ourselves.
       </p>
       <div class="hx-ph-cta">
-        <a class="btn" href="/signup">Request a demo</a>
+        <a class="btn" href="/contact">Send a brief</a>
         <a class="btn-o" href="/destinations">See coverage</a>
       </div>
     </div>
   </section>
 
-  <!-- ============ PRODUCT ============ -->
-  <section class="hx">
-    <div class="hx-frame">
-      <div class="hx-frame-art" aria-hidden="true" set:html={frameArt} />
-      <AppShot stage={3} class="hx-frame-app" />
+  <!-- ============ SCENES ============ -->
+  <section class="hx" style="padding-top:clamp(28px,3.4vw,44px)">
+    <div class="hx-tiles">
+      {
+        SCENES.map((c, i) => (
+          <a class="hx-tile" href={`/destinations/${slugify(c.name)}`}>
+            <span class="hx-tile-art" set:html={destArt(c.name, `hm${i}`)} />
+            <span class="hx-tile-r">{c.region}</span>
+            <span class="hx-tile-n">{c.name}</span>
+          </a>
+        ))
+      }
     </div>
-    <p class="hx-cap">Autopilot, mid-quotation. Illustrative trip and operators.</p>
   </section>
 
   <!-- ============ COVERAGE ============ -->
-  <!-- The map itself lives in the hero above and in full on /destinations.
-       Repeating it here would say the same thing twice and cost another
-       120KB of path data on one page. -->
   <section class="hx hx-sec">
     <div class="hx-mid">
-      <h2>Operators in {COUNTRIES} countries</h2>
-      <p>Vetted ground partners across every region Horizon reaches.</p>
+      <h2>{regionCount} regions, {countries} countries</h2>
+      <p>One point of contact, wherever your travellers are going.</p>
     </div>
     <div class="hx-rows">
       {
-        COVERED.map((r, i) => (
+        regions.map((r, i) => (
           <a class="hx-row hx-row-link" href={`/regions/${slugify(r)}`}>
             <div class="hx-row-n">{String(i + 1).padStart(2, '0')}</div>
             <h3>{r}</h3>
@@ -102,41 +105,25 @@ const bandArt = destArt('Morocco', 'band-bg', 'dark');
     </p>
   </section>
 
-  <!-- ============ TWO PRODUCTS ============ -->
+  <!-- ============ SERVICES ============ -->
   <section class="hx hx-sec">
-    <div class="hx-mid">
-      <h2>Two products. One operation.</h2>
+    <div class="hx-two" style="margin-bottom:clamp(34px,4vw,60px)">
+      <h2>What we handle</h2>
       <p>
-        The software and the network are sold separately. Most agencies take one, some
-        take both.
+        Everything between your client saying yes and coming home. You keep the client
+        relationship and your margin. We do the rest, in the destination.
       </p>
     </div>
-    <div class="hx-duo">
-      <article class="hx-card">
-        <div class="hx-card-copy">
-          <div class="hx-kind">Our software</div>
-          <h3>Autopilot</h3>
-          <p>
-            Nine steps from first message to trip complete, in one thread. You keep the
-            client relationship; it keeps the chasing.
-          </p>
-          <a class="hx-ghost" href="/autopilot">Explore Autopilot &rarr;</a>
-        </div>
-        <div class="hx-card-shot"><AppShot stage={5} compact class="in-card" /></div>
-      </article>
-
-      <article class="hx-card">
-        <div class="hx-card-art" aria-hidden="true" set:html={horizonArt} />
-        <div class="hx-card-copy">
-          <div class="hx-kind">Our supplier network</div>
-          <h3>Horizon</h3>
-          <p>
-            Local operators we have vetted ourselves, in {COUNTRIES} countries. Reach them
-            through Autopilot, or bring us the trip and we will run it.
-          </p>
-          <a class="hx-ghost" href="/horizon">Explore Horizon &rarr;</a>
-        </div>
-      </article>
+    <div class="hx-grid">
+      {
+        SERVICES.map(([title, body], i) => (
+          <div>
+            <div class="hx-cell-n">{String(i + 1).padStart(2, '0')}</div>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </div>
+        ))
+      }
     </div>
   </section>
 
@@ -145,25 +132,24 @@ const bandArt = destArt('Morocco', 'band-bg', 'dark');
     <div class="hx-band-art" aria-hidden="true" set:html={bandArt} />
     <div class="hx hx-band-in">
       <span class="hx-band-tag">The whole point</span>
-      <h2>One thread, from the first message to the last invoice.</h2>
+      <h2>One operator to brief, wherever the trip goes.</h2>
       <p>
-        No forwarded email chains, no spreadsheet of who owes what. {AUTO} of the {
-          STAGES.length
-        } steps run on their own. The other {HUMAN} are the ones a person should be making anyway.
+        No cold outreach in a country you have never sold. No unassessed quotes at rates you
+        cannot sanity-check. One brief, one net rate, one team on the ground.
       </p>
       <a class="btn" href="/how">See how it works</a>
     </div>
   </section>
 
-  <!-- ============ STAGES ============ -->
+  <!-- ============ PROCESS ============ -->
   <section class="hx hx-sec">
     <div class="hx-split">
       <div>
-        <h2 class="hx-split-h">Every step of a trip, in one place</h2>
-        <div class="hx-list" id="stage-list">
+        <h2 class="hx-split-h">From brief to report, in {PROCESS.length} steps</h2>
+        <div class="hx-list" id="step-list">
           {
-            STAGES.map((s, i) => (
-              <div class:list={['hx-item', { on: i === 0 }]} data-stage={i + 1}>
+            PROCESS.map((s, i) => (
+              <div class:list={['hx-item', { on: i === 0 }]}>
                 <button type="button" aria-expanded={i === 0 ? 'true' : 'false'}>
                   <span class="hx-n">{s.n}</span>
                   <span>{s.name}</span>
@@ -171,9 +157,7 @@ const bandArt = destArt('Morocco', 'band-bg', 'dark');
                 <div class="hx-body">
                   <div class="hx-body-in">
                     <p>{s.body}</p>
-                    {s.cls === 'Human touchpoint' && (
-                      <span class="hx-amb">A person handles this</span>
-                    )}
+                    <span class="hx-who">{s.who}</span>
                   </div>
                 </div>
               </div>
@@ -184,8 +168,14 @@ const bandArt = destArt('Morocco', 'band-bg', 'dark');
       </div>
 
       <div class="hx-side">
-        <AppShot stage={1} class="hx-side-app" />
-        <p class="hx-cap">The same thread, at the selected step.</p>
+        <div class="hx-note">
+          <div class="hx-note-t">Always a person</div>
+          <p>
+            Every step is carried by someone whose name you know. Money moves only once a person
+            has confirmed it in writing, and a real problem on the ground reaches you directly,
+            not a queue.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -197,40 +187,27 @@ const bandArt = destArt('Morocco', 'band-bg', 'dark');
         <h2>What the network covers</h2>
       </div>
       <dl style="margin:0">
-        <div class="hx-stat"><dt>Countries with vetted operators</dt><dd>{COUNTRIES}</dd></div>
-        <div class="hx-stat"><dt>Regions covered</dt><dd>{COVERED.length}</dd></div>
-        <div class="hx-stat"><dt>Steps from inquiry to trip complete</dt><dd>{STAGES.length}</dd></div>
-        <div class="hx-stat"><dt>Of those, handled by a person</dt><dd>{HUMAN}</dd></div>
+        <div class="hx-stat"><dt>Countries with vetted operators</dt><dd>{countries}</dd></div>
+        <div class="hx-stat"><dt>Regions covered</dt><dd>{regionCount}</dd></div>
+        <div class="hx-stat"><dt>Points of contact per trip</dt><dd>1</dd></div>
+        <div class="hx-stat"><dt>Net rate on every quote</dt><dd>1</dd></div>
       </dl>
     </div>
   </section>
 </Base>
 
 <script>
-  // Stage accordion. One item open at a time, and the interface beside it
-  // re-points at that step. Everything renders server-side with the first
-  // stage open, so this only enhances markup that already works.
+  // Step accordion. One item open at a time. Everything renders
+  // server-side with the first step open, so this only enhances markup
+  // that already works.
   const items = Array.from(document.querySelectorAll<HTMLElement>('.hx-item'));
-  const app = document.querySelector<HTMLElement>('.hx-side-app');
-  const pill = app?.querySelector<HTMLElement>('.app-stage');
-  const rail = Array.from(app?.querySelectorAll<HTMLElement>('.app-rail i') ?? []);
-
-  function open(index: number) {
-    items.forEach((el, i) => {
-      const on = i === index;
-      el.classList.toggle('on', on);
-      el.querySelector('button')?.setAttribute('aria-expanded', on ? 'true' : 'false');
-    });
-
-    const label = items[index].querySelector('button span:last-child')?.textContent ?? '';
-    if (pill) pill.textContent = label;
-    rail.forEach((seg, i) => {
-      seg.classList.toggle('done', i < index);
-      seg.classList.toggle('now', i === index);
-    });
-  }
-
   items.forEach((el, i) => {
-    el.querySelector('button')?.addEventListener('click', () => open(i));
+    el.querySelector('button')?.addEventListener('click', () => {
+      items.forEach((other, j) => {
+        const on = i === j;
+        other.classList.toggle('on', on);
+        other.querySelector('button')?.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    });
   });
 </script>

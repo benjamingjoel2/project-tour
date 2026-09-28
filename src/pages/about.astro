@@ -2,10 +2,6 @@
 /**
  * About, on the site's shared page patterns.
  *
- * Rebuilt again after the first attempt was reverted — this one stays on
- * the same patterns every other page uses rather than importing a set of
- * its own, so it is consistent with the site instead of being a one-off.
- *
  * Not built, because filling them would mean inventing things:
  *
  *  - an investor grid. Whether Projectour has raised, and from whom, is
@@ -23,32 +19,32 @@ import Base from '../layouts/Base.astro';
 import { CONTACT_EMAIL } from '../lib/contact';
 import { destArt } from '../lib/landmark/generator';
 import { networkCounts } from '../lib/counts';
-import { STAGES } from '../lib/stages';
+import { PROCESS } from '../lib/process';
 
 const { countries, regionCount } = await networkCounts();
 
 const BAND = ['Kenya', 'Peru', 'Japan', 'Morocco', 'Portugal'];
 const bandArt = BAND.map((name) => ({ name, svg: destArt(name, `ab-${name}`) }));
 
-const TEAM = ['Founder / CEO', 'Co-founder / CTO', 'Co-founder / Operations'];
+const TEAM = ['Founder / CEO', 'Co-founder / Operations', 'Co-founder / Partnerships'];
 ---
 
 <Base
   title="About"
-  description="Projectour was built by people who've coordinated trips the old way — we think that work should run itself, with a person only where real judgment is needed."
+  description="Projectour is a global destination management company, built by people who have run trips on the ground the hard way — one operator, one brief, one team in the destination."
   currentNav="about"
   noindex
 >
   <section class="hx hx-ph">
     <p class="hx-ph-eye">Company</p>
-    <h1>We used to run this by hand too.</h1>
+    <h1>We used to source this by hand too.</h1>
   </section>
 
   <section class="hx">
     <div class="hx-ab-stats">
       <div><b>{countries}</b><span>Countries with vetted operators</span></div>
       <div><b>{regionCount}</b><span>Regions covered</span></div>
-      <div><b>{STAGES.length}</b><span>Steps in every trip we run</span></div>
+      <div><b>{PROCESS.length}</b><span>Steps in every trip we run</span></div>
     </div>
   </section>
 
@@ -67,18 +63,19 @@ const TEAM = ['Founder / CEO', 'Co-founder / CTO', 'Co-founder / Operations'];
 
   <section class="hx hx-sec">
     <div class="hx-two">
-      <h2>Built to scale</h2>
+      <h2>Why we exist</h2>
       <div>
         <p>
-          Projectour was built by people who had coordinated trips the old way — chasing
-          operators over email, relaying WhatsApp messages between travellers and drivers,
-          rebuilding the same itinerary for the fifth time.
+          Projectour was started by people who had sold trips the old way: deep operator
+          relationships in a handful of countries, and cold emails to strangers everywhere
+          else. Every out-of-region inquiry meant guessing at an operator you could not
+          assess, at a rate you could not sanity-check, days after the client asked.
         </p>
         <p>
-          Every trip involves the same coordination work, repeated by hand, agency by
-          agency. Autopilot is the software that does it. Horizon is the network of local
-          operators it reaches, in {countries} countries across {regionCount} regions.
-          Agencies take one, or the other, or both.
+          So we built the thing we wished we had. One destination management company with
+          vetted local operators in {countries} countries across {regionCount} regions.
+          You send the brief. We quote it, book it and run it on the ground. You keep the
+          client and the margin.
         </p>
       </div>
     </div>
@@ -86,7 +83,7 @@ const TEAM = ['Founder / CEO', 'Co-founder / CTO', 'Co-founder / Operations'];
 
   <section class="hx hx-sec">
     <blockquote class="hx-ab-quote">
-      <p>A person should be making the decisions. Not chasing the people who have already made them.</p>
+      <p>A good operator's best work is invisible. It shows up as an absence of problems.</p>
       <cite>Projectour</cite>
     </blockquote>
   </section>
@@ -112,7 +109,7 @@ const TEAM = ['Founder / CEO', 'Co-founder / CTO', 'Co-founder / Operations'];
 
   <section class="hx hx-sec">
     <h2 class="hx-ab-join">
-      Join our team. <span>Help build the software travel operations should have had ten years ago.</span>
+      Join our team. <span>Help run trips in more places, better.</span>
     </h2>
     <a class="btn" href={`mailto:${CONTACT_EMAIL}?subject=Working%20at%20Projectour`}>Get in touch</a>
   </section>

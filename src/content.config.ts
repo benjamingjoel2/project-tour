@@ -2,10 +2,8 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 /**
- * Canonical region taxonomy — the 7 groups the old DEST array used.
- * Locked in as the single source of truth: Horizon's radial diagram (which
- * used a different, overlapping 6-label set) gets rebuilt on this list
- * rather than keeping its own.
+ * Canonical region taxonomy — the 7 groups every region list on the site
+ * is built from. Locked in as the single source of truth.
  */
 export const REGIONS = [
   'Africa',

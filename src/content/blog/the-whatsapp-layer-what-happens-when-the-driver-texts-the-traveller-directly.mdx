@@ -32,30 +32,30 @@ This fails for a simple reason: **the traveller is standing at an airport right 
 
 Any solution that requires the agency to be the synchronous relay point between two parties in the same time zone — while the agency is in a different one — will be routed around within a season. Policies that fight physics lose.
 
-## Masked relay: the shape of the answer
+## One number for the trip
 
-The workable version keeps the immediacy and removes the exposure. Traveller and driver message each other in real time. Neither one sees the other's actual number. Both are talking through a relay that sits in the middle.
+The workable version keeps the immediacy and removes the exposure. The traveller has one number for the whole trip: the operations desk of the operator running it in-country, staffed in the destination's time zone. The driver and the guide coordinate through that same desk. Nobody exchanges personal numbers, and nobody waits for an office on another continent to wake up.
 
 Mechanically, this looks like:
 
-- Each side gets a stable contact for the trip rather than a personal number.
-- Messages pass through **immediately** — no approval queue, no delay, because delay is the thing that broke the last three policies.
-- Everything is logged against the trip, so the record exists whether or not anyone needed it.
-- Certain categories break through to a human: safety language, cancellations, anything that reads like a complaint or a commitment.
-- When the trip ends, the channel closes.
+- The traveller gets a single trip contact on the voucher, not a driver's mobile.
+- The desk answers **immediately** — no approval queue, no relay through the agency, because delay is the thing that broke the last three policies.
+- Every exchange is noted against the trip, so the record exists whether or not anyone needed it.
+- Certain categories go to the agency the same hour: safety, cancellations, anything that reads like a complaint or a commitment.
+- When the trip ends, the agency gets a short report and the line closes.
 
-The critical design property is that **routine traffic must be invisible**. If the agency gets pinged every time a driver says "I'm outside," the alerts get muted within a week and the system is worse than useless — it's a false sense of coverage.
+The critical design property is that **routine traffic must stay in the destination**. If the agency gets pinged every time a driver says "I'm outside," the messages get muted within a week and the arrangement is worse than useless — it's a false sense of coverage.
 
 ## The escalation question
 
-Deciding what breaks through is where this gets genuinely difficult, and it's worth being honest that no rule set gets it perfect.
+Deciding what reaches the agency is where this gets genuinely difficult, and it's worth being honest that no rule gets it perfect.
 
-Under-escalate and a real problem sits in a relay log while a family stands in a car park at midnight. Over-escalate and the operations team drowns in notifications about traffic.
+Under-escalate and a real problem sits in a desk log while a family stands in a car park at midnight. Over-escalate and the agency drowns in messages about traffic.
 
-The practical heuristic that seems to hold: escalate on **category**, not on volume. Anything touching safety, money, or a change to what was sold goes to a human immediately, no matter how calmly it was phrased. Everything else relays silently and lands in the log. A traveller who writes "slight concern about the hotel area at night" in a mild tone has raised a safety issue, and tone should not be what determines whether anyone sees it.
+The practical heuristic that seems to hold: escalate on **category**, not on volume. Anything touching safety, money, or a change to what was sold goes to the agency immediately, no matter how calmly it was phrased. Everything else is handled on the ground and lands in the report. A traveller who writes "slight concern about the hotel area at night" in a mild tone has raised a safety issue, and tone should not be what determines whether anyone sees it.
 
 ## What this is really protecting
 
-It's tempting to frame masked relay as a disintermediation defence — stopping the operator from stealing the client. That's part of it, and agencies are entitled to protect a relationship they paid to acquire.
+It's tempting to frame a single trip line as a disintermediation defence — stopping the operator from stealing the client. That's part of it, and agencies are entitled to protect a relationship they paid to acquire.
 
-But the more durable benefit is that the agency finally knows what happened on its own trips. Right now, most agencies' understanding of trip execution is assembled after the fact from reviews, complaints, and whatever the DMC chooses to report. A relay log is the first time the operational reality of a trip becomes something you can actually look at — which is also the only way you ever find out which operators are quietly excellent and which ones are quietly not.
+But the more durable benefit is that the agency finally knows what happened on its own trips. Right now, most agencies' understanding of trip execution is assembled after the fact from reviews, complaints, and whatever the DMC chooses to report. A desk log and a post-trip report are the first time the operational reality of a trip becomes something you can actually look at — which is also the only way you ever find out which operators are quietly excellent and which ones are quietly not.

@@ -29,8 +29,7 @@ const indexableDestinations = indexableDestinationSlugs();
 // Pages that render a noindex robots tag and so must not be listed in the
 // sitemap either: About until the "Name pending" bios are real, Terms and
 // Privacy until counsel has reviewed the drafts.
-// /preview/* is a throwaway design study, not a real page.
-const noindexPaths = new Set(['/about', '/terms', '/privacy', '/404', '/preview/oh', '/preview/brandigo']);
+const noindexPaths = new Set(['/about', '/terms', '/privacy', '/404']);
 
 // Sitemap paths are compared against `noindexPaths` with any trailing slash
 // removed, so that set stays correct whichever trailingSlash policy is in
